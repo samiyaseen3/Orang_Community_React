@@ -32,7 +32,7 @@ class PostController extends Controller
     
     
     {
-        $user_id = 3; // Get the authenticated user
+        $user_id = 3; 
         $request->validate([
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:10240', // Validate image
@@ -57,4 +57,42 @@ class PostController extends Controller
     
         return response()->json(['success' => true, 'post' => $post], 200);
     }
+    public function show($postId)
+{
+    $post = Post::with([
+        'user:id,full_name',
+        'comments' => function($query) {
+            $query->with('user:id,full_name')
+                  ->latest();
+        },
+        'likes:id,post_id,user_id',
+        'postImages:id,post_id,image'
+    ])->findOrFail($postId);
+
+    return response()->json([
+        'success' => true,
+        'data' => $post
+    ], 200);
+
+
+    
+}
+
+public function getUserPosts($userId)
+{
+    $posts = Post::where('user_id', $userId)
+        ->with([
+            'user:id,full_name',
+            'comments:id,user_id,post_id,content',
+            'likes:id,post_id,user_id',
+            'postImages:id,post_id,image'
+        ])
+        ->latest()
+        ->get();
+
+    return response()->json([
+        'success' => true,
+        'data' => $posts
+    ], 200);
+}
 }

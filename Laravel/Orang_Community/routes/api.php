@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\landingPage\PostController;
 use App\Http\Controllers\ActController;
 use App\Http\Controllers\landingPage\CommentController;
+use App\Http\Controllers\landingPage\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,10 +38,14 @@ Route::group([
     Route::get('profile' , action: [ApiController::class , 'profile']);
     Route::get("index", [PostController::class, 'index']);
     Route::post("posts/share", [PostController::class, 'share']);
-    
-    Route::get("activities", [ActController::class, 'getActivities']);
+    Route::get('/search-users', [UserController::class, 'searchUsers']);
     Route::get('logout' , [ApiController::class , 'logout']);
+    Route::post('/comments', [CommentController::class, 'store']);
+    Route::get('/posts/{postId}', [PostController::class, 'show']);
+    Route::post('/profile/edit', [ProfileController::class, 'updateProfile']);
+    Route::get('profile', [ProfileController::class, 'show']);
+    Route::get("activities", [ActController::class, 'getActivities']);
+    Route::get('/profile/posts', [ProfileController::class, 'getUserPosts']);
 });
 
 
-Route::post('comments', [CommentController::class, 'store']);

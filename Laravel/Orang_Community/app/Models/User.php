@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;  
 
 class User extends Model
 {
-    use HasFactory, HasApiTokens; 
+    use HasFactory, HasApiTokens , Notifiable; 
 
     protected $fillable = [
         'full_name',

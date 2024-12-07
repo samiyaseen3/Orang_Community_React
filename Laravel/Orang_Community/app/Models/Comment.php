@@ -27,5 +27,7 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+    protected $with = ['user:id,full_name,image'];
 }
 

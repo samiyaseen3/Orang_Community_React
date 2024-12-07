@@ -44,4 +44,6 @@ class CommentController extends Controller
             'comment' => $comment->load('user'), // Include user details for the frontend
         ], 201);
     }
+
+    
 }
