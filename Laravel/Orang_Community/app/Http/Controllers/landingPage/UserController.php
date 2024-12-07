@@ -20,12 +20,11 @@ class UserController extends Controller
             ->get();
 
         // Modify image URL if exists
-        $users->transform(function ($user) {
+        $users->each(function ($user) {
             if ($user->image) {
-                // Assuming images are saved in the 'public/uploads/temp' folder
-                $user->image = asset('uploads/temp/' . $user->image);
+                // Assuming images are stored in 'uploads/profile' folder
+                $user->image_url = url('uploads/profile/' . $user->image);
             }
-            return $user;
         });
 
         return response()->json([
