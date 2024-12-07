@@ -4,7 +4,7 @@ namespace App\Http\Controllers\landingPage;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User; // Ensure you are importing the correct model
 
 class UserController extends Controller
 {
@@ -18,6 +18,15 @@ class UserController extends Controller
             ->orWhere('socialmedia', 'LIKE', "%{$query}%")
             ->select('id', 'full_name', 'email', 'image', 'academy', 'socialmedia')
             ->get();
+
+        // Modify image URL if exists
+        $users->transform(function ($user) {
+            if ($user->image) {
+                // Assuming images are saved in the 'public/uploads/temp' folder
+                $user->image = asset('uploads/temp/' . $user->image);
+            }
+            return $user;
+        });
 
         return response()->json([
             'success' => true,

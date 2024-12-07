@@ -9,6 +9,8 @@ use App\Http\Controllers\landingPage\PostController;
 use App\Http\Controllers\ActController;
 use App\Http\Controllers\landingPage\CommentController;
 use App\Http\Controllers\landingPage\UserController;
+use App\Http\Controllers\NavController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +38,12 @@ Route::group([
     'middleware' => ["auth:sanctum"]
 ], function(){
     Route::get('profile' , action: [ApiController::class , 'profile']);
-    Route::get("index", [PostController::class, 'index']);
-    Route::post("posts/share", [PostController::class, 'share']);
+    Route::get('profile', [ProfileController::class, 'show']);
+    Route::post('/profile/edit', action: [ProfileController::class, 'updateProfile']);
     Route::get('/search-users', [UserController::class, 'searchUsers']);
+    Route::post('comments', [CommentController::class, 'store']);
+    Route::get('/nav/user-details', [NavController::class, 'getUserDetails']);
+    Route::get("activities", [ActController::class, 'getActivities']);
     Route::get('logout' , [ApiController::class , 'logout']);
     Route::post('/comments', [CommentController::class, 'store']);
     Route::get('/posts/{postId}', [PostController::class, 'show']);
@@ -47,5 +52,6 @@ Route::group([
     Route::get("activities", [ActController::class, 'getActivities']);
     Route::get('/profile/posts', [ProfileController::class, 'getUserPosts']);
 });
-
-
+Route::get("index", [PostController::class, 'index']);
+Route::post("posts/share", [PostController::class, 'share']);
+Route::get('/posts/{postId}', [PostController::class, 'show']);

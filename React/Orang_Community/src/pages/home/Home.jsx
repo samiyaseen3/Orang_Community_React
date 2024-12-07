@@ -11,7 +11,15 @@ const Home = () => {
     try {
       const res = await axios.get("http://localhost:8000/api/index");
       if (res.data.success) {
-        setPosts(res.data.data);
+        // Ensure comments contain user data by checking the structure of the response
+        const postsWithUsers = res.data.data.map(post => {
+          post.comments = post.comments.map(comment => ({
+            ...comment,
+            user: comment.user || {} // Ensure that user data is included for comments
+          }));
+          return post;
+        });
+        setPosts(postsWithUsers);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);

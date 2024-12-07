@@ -28,10 +28,10 @@ const PostDetail = () => {
 
   if (loading) {
     return (
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        alignItems="center" 
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
         height="200px"
       >
         <CircularProgress />
